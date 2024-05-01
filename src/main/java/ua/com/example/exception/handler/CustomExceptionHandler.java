@@ -4,9 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ua.com.example.exception.InvalidBirthDateException;
-import ua.com.example.exception.InvalidEmailException;
-import ua.com.example.exception.UserAgeInsufficientException;
+import ua.com.example.exception.*;
 
 @ControllerAdvice
 public class CustomExceptionHandler {
@@ -23,6 +21,16 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(UserAgeInsufficientException.class)
     public ResponseEntity<Object> handleUserAgeInsufficientException(UserAgeInsufficientException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({InvalidDateRangeException.class})
+    public ResponseEntity<Object> handleInvalidDateRangeException(InvalidDateRangeException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
