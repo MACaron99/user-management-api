@@ -3,6 +3,7 @@ package ua.com.example.entity;
 import ua.com.example.dto.UserDto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class User {
 
@@ -21,6 +22,14 @@ public class User {
         setBirthDate(userDto.getBirthDate());
         setAddress(userDto.getAddress());
         setPhoneNumber(userDto.getPhoneNumber());
+    }
+
+    public User(Long id, String email, String firstName, String lastName, LocalDate birthDate) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
     }
 
     public Long getId() {
@@ -77,5 +86,21 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(birthDate, user.birthDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, firstName, lastName, birthDate);
     }
 }

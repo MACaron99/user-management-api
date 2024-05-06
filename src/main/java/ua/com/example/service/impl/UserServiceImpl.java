@@ -41,10 +41,14 @@ public class UserServiceImpl implements UserService {
     public void updateAllUserFields(Long id, UserDto userDto) {
         User user = findUserById(id);
 
-        ValidationUtil.validateBirthDate(userDto.getBirthDate());
-        ValidationUtil.validateEmail(userDto.getEmail());
+        if (userDto.getBirthDate() != null) {
+            ValidationUtil.validateBirthDate(userDto.getBirthDate());
+        }
+        if (userDto.getEmail() != null) {
+            ValidationUtil.validateEmail(userDto.getEmail());
+        }
 
-        user.setEmail(user.getEmail());
+        user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setBirthDate(userDto.getBirthDate());
@@ -66,7 +70,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (userDto.getLastName() != null) {
-            user.setLastName(user.getLastName());
+            user.setLastName(userDto.getLastName());
         }
 
         if (userDto.getBirthDate() != null) {
@@ -96,7 +100,7 @@ public class UserServiceImpl implements UserService {
         return usersInRange;
     }
 
-    private User findUserById(Long id) {
+    public User findUserById(Long id) {
         for (User user : users) {
             if (user.getId().equals(id)) {
                 return user;
